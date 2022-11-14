@@ -108,7 +108,7 @@ Wenn ihr wollt, gerne Forken, aber ich werde keine Pullrequests annehmen.
 <!-- LICENSE -->
 ## License
 
-Distributed under the Apache-2.0 License. See `LICENSE.md` for more information.
+Distributed under the Unlicense. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
