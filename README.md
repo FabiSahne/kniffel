@@ -29,8 +29,8 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#building">Building</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -56,20 +56,20 @@ Ich wollte nur Rust lernen, also hab ich eine quicke Runde Kiffel für zwei Spie
 ## Getting Started
 
 
-### Prerequisites
-
-* Rust
-
-  Installiere Rustup von [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)
-
 ### Installation
 
+* Lade den neuesten Release runter
+* Öffne PowerShell oder CMD im Ordner in der sich die kniffel.exe befindet und führe `.\Kniffel.exe` aus
 
-   ```sh
+### Building
+
+* Installiere Rustup von [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)
+*  ```sh
    git clone https://github.com/FabiSahne/kniffel
    cd kniffel
-   cargo run
+   cargo build --release
    ```
+* kniffel.exe befindet sich in /target/release/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -122,7 +122,3 @@ Fabian Wolter - fabianwolter@outlook.com
 Project Link: [https://github.com/FabiSahne/kniffel](https://github.com/FabiSahne/kniffel)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
