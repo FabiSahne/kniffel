@@ -59,7 +59,8 @@ Ich wollte nur Rust lernen, also hab ich eine quicke Runde Kiffel für zwei Spie
 ### Installation
 
 * Lade den neuesten Release runter
-* Öffne PowerShell oder CMD im Ordner in der sich die kniffel.exe befindet und führe `.\Kniffel.exe` aus
+* Windows: Öffne PowerShell oder CMD im Ordner in der sich die kniffel-windows.exe befindet und führe `.\kniffel-windows.exe` aus
+* Linux: Öffne das Terminal im Ordner in der sich kniffel-linux befindet und führe `chmod +x kniffel-linux` aus um die Binary auführbar zu machen. Danach `./kniffel-linux` um es zu starten.
 
 ### Building
 
@@ -69,7 +70,7 @@ Ich wollte nur Rust lernen, also hab ich eine quicke Runde Kiffel für zwei Spie
    cd kniffel
    cargo build --release
    ```
-* kniffel.exe befindet sich in /target/release/
+* kniffel(.exe) befindet sich in /target/release/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -78,7 +79,7 @@ Ich wollte nur Rust lernen, also hab ich eine quicke Runde Kiffel für zwei Spie
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Gib in der Konsole (im Ordner wo sich die exe befindet) `.\kniffel.exe` ein, das Programm startet.
+Starte das Spiel wie in <a href="#installation">Installation</a> erklärt.
 
 Spieler 1 ist an der Reihe und es wurde bereits gewürfelt.
 Entweder trägst du dein Ergebnis direkt ins Scoreboard, oder du würfelst erneut.
