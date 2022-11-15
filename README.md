@@ -1,12 +1,4 @@
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
+<a name="readme-top"></a>
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -70,7 +62,7 @@ Ich wollte nur Rust lernen, also hab ich eine quicke Runde Kiffel für zwei Spie
    cd kniffel
    cargo build --release
    ```
-* kniffel(.exe) befindet sich in /target/release/
+* kniffel(.exe) befindet sich in `target/release/`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
