@@ -6,86 +6,68 @@ pub mod score;
 pub mod wurfel;
 
 fn main() {
-    let mut spieler1 = Score::score_builder();
-    let mut spieler2 = Score::score_builder();();
+    println!("Wie viele Spieler?");
+    let anzahl: usize = string_to_i32(get_input()) as usize;
+
+
+
+    let mut spieler: Vec<Score> = vec![Score::score_builder(); anzahl];
     let mut wurfel = Wurfel::wurfel_builder();
     
     let mut dreimal = 3;
     let mut auswahl = 0;
     print!("\x1B[2J");
-    while !spieler1.fertig() && !spieler2.fertig() {
-        println!("\n");
-        println!("Spieler 1:");
-        while auswahl != 1 && dreimal > 0 {
-            spieler1.print();
-            wurfel.wurf();
-            wurfel.print();
-            let pos = get_pos(&spieler1, &wurfel);
-            let mut erfolg = false;
+    loop {
 
-            while erfolg == false{
-                if dreimal > 1 {
-                    println!("\nWass willst du tun?\n1. Eintragen\n2. Würfel behalten und nochmal würfeln");
-                    auswahl = get_i32_input();
-                    match auswahl {
-                        1 => erfolg = eintragen(&mut spieler1, &wurfel, &pos),
-                        2 => {weglegen(&mut wurfel); erfolg = true},
-                        _ => (),
+        for i in 0..anzahl {
+            println!("\n");
+            println!("Spieler {}:", i+1);
+            while auswahl != 1 && dreimal > 0 {
+                spieler[i].print();
+                wurfel.wurf();
+                wurfel.print();
+                let pos = get_pos(&spieler[i], &wurfel);
+                let mut erfolg = false;
+    
+                while erfolg == false{
+                    if dreimal > 1 {
+                        println!("\nWass willst du tun?\n1. Eintragen\n2. Würfel behalten und nochmal würfeln");
+                        auswahl = string_to_i32(get_input());
+                        match auswahl {
+                            1 => erfolg = eintragen(&mut spieler[i], &wurfel, &pos),
+                            2 => {weglegen(&mut wurfel); erfolg = true},
+                            _ => (),
+                        }
+                    } else {
+                        erfolg = eintragen(&mut spieler[i], &wurfel, &pos);
                     }
-                } else {
-                    erfolg = eintragen(&mut spieler1, &wurfel, &pos);
                 }
+                dreimal -= 1; 
             }
-            dreimal -= 1; 
+            dreimal = 3;
+            auswahl = 0;
+            wurfel = Wurfel::wurfel_builder();
         }
-        dreimal = 3;
-        auswahl = 0;
-        wurfel = Wurfel::wurfel_builder();
-        println!("\n");
-        println!("Spieler 2:");
-        while auswahl != 1 && dreimal > 0 {
-            spieler2.print();
-            wurfel.wurf();
-            wurfel.print();
-            let pos = get_pos(&spieler2, &wurfel);
-            let mut erfolg = false;
 
-            while erfolg == false {
-                if dreimal > 1 {
-                    println!("\nWass willst du tun?\n1. Eintragen\n2. Würfel behalten und nochmal würfeln");
-                    auswahl = get_i32_input();
-                    match auswahl {
-                        1 => erfolg = eintragen(&mut spieler2, &wurfel, &pos),
-                        2 => {weglegen(&mut wurfel);  erfolg = true;},
-                        _ => (),
-                    }
-                } else {
-                    erfolg = eintragen(&mut spieler2, &wurfel, &pos)
-                }
+
+        let mut fertig = true;
+        for i in 0..anzahl {
+            if spieler[i].fertig() == false {
+                fertig = false;
             }
-            dreimal -= 1; 
         }
-        auswahl = 0;
-        dreimal = 3;
-        wurfel = Wurfel::wurfel_builder();
+        if fertig {
+            break;
+        }
         
     };
 
-    let diff = spieler1.get_gesamt() - spieler2.get_gesamt();
-
     println!("Endergebniss:");
-    println!("Spieler 1:");
-    spieler1.print();
-    println!("Spieler 2:");
-    spieler2.print();
 
-    if diff > 0 {
-        println!("Spieler 1 hat gewonnen");
-    } else if diff < 0 {
-        println!("Spieler 2 hat gewonnen");
-    } else {
-        println!("Unentschieden")
+    for i in 0..anzahl {
+        println!("Spieler {}: {}", i+1, spieler[i].get_gesamt());
     }
+
     pause();
 
 }
@@ -116,7 +98,7 @@ fn weglegen(wurfel: &mut Wurfel){
 fn eintragen(spieler : &mut Score, wurfel :&Wurfel, pos :&Vec<i32>) -> bool{
     let mut erfolg = false;
     println!("Was willst du eintragen?");
-    let eingabe = get_i32_input();
+    let eingabe = string_to_i32(get_input());
     if pos.contains(&eingabe){
         match eingabe {
             1 => erfolg = spieler.set_einer(wurfel.get_zahl(1)),
@@ -156,13 +138,13 @@ fn eintragen(spieler : &mut Score, wurfel :&Wurfel, pos :&Vec<i32>) -> bool{
     erfolg
 }
 
-fn get_i32_input() -> i32 {
+fn get_input() -> String {
     let mut line = String::new();
     match std::io::stdin().read_line(&mut line) {      //get input
         Ok(_n) => (),
         Err(error) => {
             eprint!("Failed to read line: {error}");
-            return 0;
+            return "".to_string();
         }
     }
     if line.ends_with("\n") {                               //Truncate input
@@ -171,6 +153,10 @@ fn get_i32_input() -> i32 {
             line.pop();
         }
     }
+    line
+}
+
+fn string_to_i32(line: String) -> i32 {
     match line.parse::<i32>() {                             //parse input to i32
         Ok(n) => 
             n,

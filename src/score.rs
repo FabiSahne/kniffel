@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub struct Score {
     einer: i32,
     einerb: bool,
