@@ -1,4 +1,5 @@
 use rand::distributions::{Distribution, Uniform};
+use std::collections::HashSet;
 pub struct Wurfel {
     zahl: [i32; 5],
     inuse: [bool; 5]
@@ -141,17 +142,13 @@ impl Wurfel{
     }
 
     pub fn kleine_str(&self) -> bool {
-        let mut zahl = self.zahl.clone();
-        Self::sort(&mut zahl);
-        let mut ks = false;
-        if (zahl[0]+1 == zahl[1] && zahl[1]+1 == zahl[2] && zahl[2]+1 == zahl[3]) ||
-            (zahl[1]+1 == zahl[2] && zahl[2]+1 == zahl[3] && zahl[3]+1 == zahl[4]) || 
-            (zahl[0]+1 == zahl[2] && zahl[2]+1 == zahl[3] && zahl[3]+1 == zahl[4]) ||
-            (zahl[0]+1 == zahl[1] && zahl[1]+1 == zahl[3] && zahl[3]+1 == zahl[4]) ||
-            (zahl[0]+1 == zahl[1] && zahl[1]+1 == zahl[2] && zahl[2]+1 == zahl[4]){
-                ks = true;
-        } 
-        ks
+        let zahl: HashSet<i32> = self.zahl.iter().cloned().collect();
+        for i in 1..=6 {
+            if zahl.contains(&i) && zahl.contains(&(i + 1)) && zahl.contains(&(i + 2)) && zahl.contains(&(i + 3)) {
+                return true;
+            }
+        }
+        false
     }
 
     pub fn grosse_str(&self) -> bool {
