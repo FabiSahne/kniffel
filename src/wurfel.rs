@@ -1,11 +1,17 @@
 use rand::distributions::{Distribution, Uniform};
 use std::collections::HashSet;
+
+/// Würfelklasse
 pub struct Wurfel {
+    /// Die Zahlen welche gewürfelt werden
     zahl: [i32; 5],
+    /// Ob die Würfel in benutzung sind
     inuse: [bool; 5]
 }
 
 impl Wurfel{
+
+    /// Quicksort Algorythmus, welcher aus dem Internet geklaut wurde 🙃
     fn sort(array: &mut [i32; 5]) {
         let start = 0;
         let end = array.len() - 1;
@@ -37,10 +43,19 @@ impl Wurfel{
     }
 
 
+    /// Konstruktor, welcher ein Standard Würfelobjekt ausgibt mit 5 Einsen, und allen Würfeln in benutzung
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use wurfel::Wurfel;
+    /// let wurfel = Wurfel::Wurfel_builder();
+    /// ```
     pub fn wurfel_builder() -> Wurfel {
         Wurfel { zahl: [1, 1, 1, 1, 1], inuse: [true, true, true, true, true] }
     }
 
+    /// Getter des Zahlen Arrays
     pub fn get_zahlen(&self) -> [i32; 5] {
         self.zahl
     }
@@ -49,6 +64,10 @@ impl Wurfel{
         self.zahl[index]
     } */
 
+    /// Wie oft wurde eine bestimmte Zahl gewürfelt. Gibt diese anzahl aus.
+    /// 
+    /// # Argument
+    /// `zahl` - Auf welche Zahl geprüft werden soll
     pub fn get_zahl(&self, zahl :i32) -> i32 {
         let mut gesamt = 0;
         for x in self.zahl {
@@ -59,6 +78,7 @@ impl Wurfel{
         gesamt
     }
 
+    /// Gibt die Gesamtaugenzahl der Würfel aus
     pub fn get_gesamt(&self) -> i32 {
         let mut gesamt = 0;
         for x in self.zahl {
@@ -67,10 +87,16 @@ impl Wurfel{
         gesamt
     }
 
+    /// Prüft ob ein bestimmter Würfel in benutzung ist.
+    /// 
+    /// # Argument
+    /// `index` - Welcher Würfel geprüft werden soll
     pub fn get_inuse(&self, index: usize) -> bool {
         self.inuse[index]
     }
 
+    /// Nutzt die Crate [`rand`] um den Würfeln, welche in benutzung sind,
+    /// eine zufällige Zahl zwischen 1 und 6 inkl. zuzuweisen.
     pub fn wurf(&mut self) {
         let mut rng = rand::thread_rng();
         let die = Uniform::from(1..=6);
@@ -83,6 +109,7 @@ impl Wurfel{
         }
     }
 
+    /// Gibt die Würfel schön in der Konsole aus
     pub fn print(&self) {
         let mut ind = 0;
         println!("Gewürfelt: ");
@@ -108,29 +135,33 @@ impl Wurfel{
         println!("\n");
     }
 
+    /// Prüft ob ein Dreierpasch existiert
     pub fn dreierp(&self) -> bool {
         let mut zahlen = self.zahl.clone();
         Self::sort(&mut zahlen);
         let mut dreier = false;
-        if (zahlen[0] == zahlen[1] && zahlen[1] == zahlen[2]) ||
-            (zahlen[1] == zahlen[2] && zahlen[2] == zahlen[3]) ||
-            (zahlen[2] == zahlen[3] && zahlen[3] == zahlen[4]) {
+        for i in 0..=3 {
+            if zahlen[i] == zahlen[i+1] && zahlen[i] == zahlen[i+2] {
                 dreier = true;
+            } 
         }
         dreier
     }
 
+    /// Prüft ob ein Viererpasch existiert
     pub fn viererp(&self) -> bool {
         let mut zahlen = self.zahl.clone();
         Self::sort(&mut zahlen);
         let mut vierer = false;
-        if (zahlen[0] == zahlen[1] && zahlen[1] == zahlen[2] && zahlen[2] == zahlen[3]) ||
-            (zahlen[1] == zahlen[2] && zahlen[2] == zahlen[3] && zahlen[3] == zahlen[4] ) {
-                vierer = true;
+        for i in 0..=2 {
+            if zahlen[i] == zahlen[i+1] && zahlen[i] == zahlen[i+2] && zahlen[i] == zahlen[i+3] {
+                vierer = true
+            }
         }
         vierer
     }
 
+    /// Prüft ob ein Full-House exisitiert
     pub fn full_house(&self) -> bool {
         let mut zahlen = self.zahl.clone();
         Self::sort(&mut zahlen);
@@ -141,9 +172,10 @@ impl Wurfel{
         fh
     }
 
+    /// Prüft ob eine kleine Straße existiert
     pub fn kleine_str(&self) -> bool {
-        let zahl: HashSet<i32> = self.zahl.iter().cloned().collect();
-        for i in 1..=6 {
+        let zahl: HashSet<i32> = self.zahl.iter().cloned().collect(); // Nutzt HashSet um identische Werte zu entfernen
+        for i in 1..=3 {
             if zahl.contains(&i) && zahl.contains(&(i + 1)) && zahl.contains(&(i + 2)) && zahl.contains(&(i + 3)) {
                 return true;
             }
@@ -151,16 +183,19 @@ impl Wurfel{
         false
     }
 
+    /// Prüft ob ein große Straße existiert
     pub fn grosse_str(&self) -> bool {
-        let mut zahl = self.zahl.clone();
-        Self::sort(&mut zahl);
-        let mut gs = false;
-        if zahl[0]+1 == zahl[1] && zahl[1]+1 == zahl[2] && zahl[2]+1 == zahl[3] && zahl[3]+1 == zahl[4] {
-            gs = true;
+        let zahl: HashSet<i32> = self.zahl.iter().cloned().collect();
+        for i in 1..=2 {
+            if zahl.contains(&i) && zahl.contains(&(i + 1)) && zahl.contains(&(i + 2)) && zahl.contains(&(i + 3)) && zahl.contains(&(i + 4)) {
+                return true;
+            }
         }
-        gs
+        false
+    
     }
 
+    /// Prüft ob ein Kniffel existiert
     pub fn kniffel(&self) -> bool {
         let mut kniffel = false;
         if self.zahl[0] == self.zahl[1] && self.zahl[1] == self.zahl[2] && self.zahl[2] == self.zahl[3] && self.zahl[3] == self.zahl[4] {
@@ -169,6 +204,10 @@ impl Wurfel{
         kniffel
     }
 
+    /// Legt die ausgewählten Würfel weg, diese werden nicht erneut gewürfelt
+    /// 
+    /// # Argument
+    /// `vec` - Vector der ausgewählten Würfel
     pub fn weglegen(&mut self, vec :Vec<u32>) {
         for x in vec {
             match x {
