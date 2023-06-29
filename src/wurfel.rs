@@ -175,7 +175,7 @@ impl Wurfel{
     /// Prüft ob eine kleine Straße existiert
     pub fn kleine_str(&self) -> bool {
         let zahl: HashSet<i32> = self.zahl.iter().cloned().collect(); // Nutzt HashSet um identische Werte zu entfernen
-        for i in 1..=3 {
+        for i in 1..3 {
             if zahl.contains(&i) && zahl.contains(&(i + 1)) && zahl.contains(&(i + 2)) && zahl.contains(&(i + 3)) {
                 return true;
             }
@@ -186,7 +186,7 @@ impl Wurfel{
     /// Prüft ob ein große Straße existiert
     pub fn grosse_str(&self) -> bool {
         let zahl: HashSet<i32> = self.zahl.iter().cloned().collect();
-        for i in 1..=2 {
+        for i in 1..2 {
             if zahl.contains(&i) && zahl.contains(&(i + 1)) && zahl.contains(&(i + 2)) && zahl.contains(&(i + 3)) && zahl.contains(&(i + 4)) {
                 return true;
             }
