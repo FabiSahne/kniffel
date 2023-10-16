@@ -11,7 +11,7 @@ pub struct Wurfel {
 
 impl Wurfel{
 
-    /// Quicksort Algorythmus, welcher aus dem Internet geklaut wurde 🙃
+    /// Quicksort Algorithmus, welcher aus dem Internet geklaut wurde 🙃
     fn sort(array: &mut [i32; 5]) {
         let start = 0;
         let end = array.len() - 1;
